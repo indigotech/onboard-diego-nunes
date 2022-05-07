@@ -3,11 +3,37 @@ import "./App.css";
 import Logo from "./logo.png";
 import { isValidEmail, isValidPassword } from "./utils/validate";
 
+import { ApolloError, gql, useMutation } from "@apollo/client";
+
+const LOGIN = gql`
+  mutation Login {
+    login(data: { email: "admin@taqtile.com.br", password: "1234qwer" }) {
+      user {
+        id
+        role
+        name
+        phone
+      }
+      token
+    }
+  }
+`;
+
 function App() {
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+
+  const [login] = useMutation(LOGIN, {
+    onError: (error: ApolloError) => {
+      console.log("ERRO:", error.message);
+      alert(error.message);
+    },
+    onCompleted: (data) => {
+      console.log("DATA:", data);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +49,7 @@ function App() {
         "Password Inválido Lembre-se: Mínimo 7 caracteres, deve conter, ao menos ,uma letra e um número."
       );
     }
+    login();
   };
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
