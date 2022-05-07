@@ -6,8 +6,8 @@ import { isValidEmail, isValidPassword } from "./utils/validate";
 import { ApolloError, gql, useMutation } from "@apollo/client";
 
 const LOGIN = gql`
-  mutation Login {
-    login(data: { email: "admin@taqtile.com.br", password: "1234qwer" }) {
+  mutation Login($data: LoginInputType!) {
+    login(data: $data) {
       user {
         id
         role
@@ -27,11 +27,11 @@ function App() {
 
   const [login] = useMutation(LOGIN, {
     onError: (error: ApolloError) => {
-      console.log("ERRO:", error.message);
       alert(error.message);
     },
-    onCompleted: (data) => {
-      console.log("DATA:", data);
+    onCompleted: ({ login }) => {
+      localStorage.setItem("token", login.token);
+      alert("Logado com sucesso");
     },
   });
 
@@ -49,7 +49,7 @@ function App() {
         "Password Inválido Lembre-se: Mínimo 7 caracteres, deve conter, ao menos ,uma letra e um número."
       );
     }
-    login();
+    login({ variables: { data: { email, password } } });
   };
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
