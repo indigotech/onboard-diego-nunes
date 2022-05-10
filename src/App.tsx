@@ -20,7 +20,6 @@ function App() {
     },
     onCompleted: ({ login }) => {
       localStorage.setItem("token", login.token);
-      alert("Logado com sucesso");
       navigate("/admin");
     },
   });
@@ -65,7 +64,9 @@ function App() {
             <input onChange={handleChangePassword} required={true} />
           </label>
           {<p>{errorPassword}</p>}
-          <button type="submit">{loading ? "carregando..." : "Entrar"}</button>
+          <button type="submit" disabled={loading ? true : false}>
+            {loading ? "carregando..." : "Entrar"}
+          </button>
         </form>
       </header>
     </div>
