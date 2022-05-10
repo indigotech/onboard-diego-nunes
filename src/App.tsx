@@ -3,11 +3,24 @@ import "./App.css";
 import Logo from "./logo.png";
 import { isValidEmail, isValidPassword } from "./utils/validate";
 
+import { ApolloError, useMutation } from "@apollo/client";
+import { LOGIN } from "./data/graphql/mutations/login-mutation";
+
 function App() {
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+
+  const [login] = useMutation(LOGIN, {
+    onError: (error: ApolloError) => {
+      alert(error.message);
+    },
+    onCompleted: ({ login }) => {
+      localStorage.setItem("token", login.token);
+      alert("Logado com sucesso");
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +36,7 @@ function App() {
         "Password Inválido Lembre-se: Mínimo 7 caracteres, deve conter, ao menos ,uma letra e um número."
       );
     }
+    login({ variables: { data: { email, password } } });
   };
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
