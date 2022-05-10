@@ -3,21 +3,8 @@ import "./App.css";
 import Logo from "./logo.png";
 import { isValidEmail, isValidPassword } from "./utils/validate";
 
-import { ApolloError, gql, useMutation } from "@apollo/client";
-
-const LOGIN = gql`
-  mutation Login($data: LoginInputType!) {
-    login(data: $data) {
-      user {
-        id
-        role
-        name
-        phone
-      }
-      token
-    }
-  }
-`;
+import { ApolloError, useMutation } from "@apollo/client";
+import { LOGIN } from "./data/graphql/mutations/login-mutation";
 
 function App() {
   const [email, setEmail] = useState(" ");
