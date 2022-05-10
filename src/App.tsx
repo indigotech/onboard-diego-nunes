@@ -5,23 +5,24 @@ import { isValidEmail, isValidPassword } from "./utils/validate";
 
 import { ApolloError, useMutation } from "@apollo/client";
 import { LOGIN } from "./data/graphql/mutations/login-mutation";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+  const navigate = useNavigate();
 
-  const [login] = useMutation(LOGIN, {
+  const [login, { loading }] = useMutation(LOGIN, {
     onError: (error: ApolloError) => {
       alert(error.message);
     },
     onCompleted: ({ login }) => {
       localStorage.setItem("token", login.token);
-      alert("Logado com sucesso");
+      navigate("/admin");
     },
   });
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValidEmail(email)) {
@@ -63,7 +64,9 @@ function App() {
             <input onChange={handleChangePassword} required={true} />
           </label>
           {<p>{errorPassword}</p>}
-          <button type="submit">Entrar</button>
+          <button type="submit" disabled={loading ? true : false}>
+            {loading ? "carregando..." : "Entrar"}
+          </button>
         </form>
       </header>
     </div>

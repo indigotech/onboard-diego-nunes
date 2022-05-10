@@ -1,21 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloProvider, InMemoryCache, ApolloClient } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./config/config-apollo";
+import { Router } from "./components/routes-component";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const client = new ApolloClient({
-  uri: "https://tq-template-server-sample.herokuapp.com/graphql",
-  cache: new InMemoryCache(),
-});
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <Router />
     </ApolloProvider>
   </React.StrictMode>
 );
