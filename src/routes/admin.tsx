@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LIMIT, useUsers } from "../domain/get-users";
 
 export const AdminPage: React.FC = () => {
+  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
 
   const { users, loading, error } = useUsers(offset);
@@ -16,6 +18,11 @@ export const AdminPage: React.FC = () => {
       setOffset(offset - LIMIT);
     }
   };
+
+  const handleClick = () => {
+    navigate("/add-user");
+  };
+
   return (
     <>
       <h2>Bem vindo ao painel do Admin</h2>
@@ -53,6 +60,22 @@ export const AdminPage: React.FC = () => {
           </button>
         </>
       )}
+      <table>
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>E-mail</th>
+          </tr>
+        </thead>
+      </table>
+      <button type="button" onClick={handlePrevPage}>
+        ⬅
+      </button>
+      <p>{numberPage}</p>
+      <button type="button" onClick={handleNextPage}>
+        ⮕
+      </button>
+      <button onClick={handleClick}>Add User</button>
     </>
   );
 };
