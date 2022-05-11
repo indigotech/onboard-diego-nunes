@@ -36,6 +36,7 @@ export const AdminPage: React.FC = () => {
           <table>
             <thead>
               <tr>
+                <th>índice</th>
                 <th>Usuário</th>
                 <th>E-mail</th>
               </tr>
@@ -44,8 +45,18 @@ export const AdminPage: React.FC = () => {
               return (
                 <tbody key={user.email}>
                   <tr>
+                    <td>{user.id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          navigate("/user-detail", { state: user.id });
+                        }}
+                      >
+                        🕵🏻‍♀️ Info
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               );
@@ -60,7 +71,7 @@ export const AdminPage: React.FC = () => {
       <button type="button" onClick={handleNextPage}>
         ⮕
       </button>
-      <button onClick={handleClick}>Add User</button>
+      <button onClick={handleClick}>Add User ✍🏼</button>
     </>
   );
 };
