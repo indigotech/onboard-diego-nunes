@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import App from "../App";
-import AdminPage from "../routes/admin";
+import { AdminPage } from "../routes/admin";
 
 export const Router: React.FC = () => {
   return (
