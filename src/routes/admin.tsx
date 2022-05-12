@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { getUsers, LIMIT } from "../domain/get-users";
+import { LIMIT, useUsers } from "../domain/get-users";
 
 export const AdminPage: React.FC = () => {
   const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
+
+  const { users } = useUsers(offset);
 
   const handleNextPage = () => {
     setPage(page + 1);
@@ -19,7 +21,6 @@ export const AdminPage: React.FC = () => {
     }
   };
 
-  getUsers(0)?.users.nodes;
   return (
     <>
       <h2>Bem vindo ao painel do Admin</h2>
@@ -31,18 +32,16 @@ export const AdminPage: React.FC = () => {
             <th>E-mail</th>
           </tr>
         </thead>
-        {getUsers(offset)?.users.nodes.map(
-          (user: { name: string; id: string; email: string }) => {
-            return (
-              <tbody key={user.email}>
-                <tr>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                </tr>
-              </tbody>
-            );
-          }
-        )}
+        {users?.map((user: { name: string; id: string; email: string }) => {
+          return (
+            <tbody key={user.email}>
+              <tr>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+              </tr>
+            </tbody>
+          );
+        })}
       </table>
       <button type="button" onClick={handlePrevPage}>
         ⬅
