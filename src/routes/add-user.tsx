@@ -1,10 +1,13 @@
+import { ApolloError, useMutation } from "@apollo/client";
 import React, { useState } from "react";
+import { ADDUSER } from "../data/graphql/mutations/create-user-mutation";
 
 export const AddUserPage: React.FC = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [birth, setBirth] = useState("");
+  const [birthDate, setBirth] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   const [errorBirth, setErrorBirth] = useState("");
 
@@ -24,20 +27,37 @@ export const AddUserPage: React.FC = () => {
     setEmail(e.target.value);
   };
 
+  const handleRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRole(e.target.value);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const year = birth?.slice(6, 10);
+    const year = birthDate?.slice(0, 4);
     if (Number(year) > 2022) {
       setErrorBirth("A pessoa não pode ser viajante do tempo");
     } else {
       setErrorBirth("");
-      console.log("Nome:", name);
-      console.log("Telefone:", phone);
-      console.log("Data de Nascimento:", birth);
-      console.log("Email:", email);
+      addUser({
+        variables: { data: { name, email, phone, birthDate, role } },
+      });
     }
   };
+  const token = localStorage.getItem("token");
+  const [addUser, { loading }] = useMutation(ADDUSER, {
+    context: {
+      headers: {
+        Authorization: token,
+      },
+    },
+    onError: (error: ApolloError) => {
+      alert(error.message);
+    },
+    onCompleted: () => {
+      alert("Cadastrado com sucesso");
+    },
+  });
   return (
     <>
       <h2>Criação de usuário</h2>
@@ -46,7 +66,7 @@ export const AddUserPage: React.FC = () => {
           Nome:
           <input
             onChange={handleName}
-            pattern="(\w{2,})"
+            pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
             required
             title={"Mínimo 2 caracteres"}
           />
@@ -55,9 +75,9 @@ export const AddUserPage: React.FC = () => {
           Telefone:
           <input
             onChange={handlePhone}
-            pattern="(^\([\d_]{2}\)[\d_]{5}-[\d_]{4}$)"
+            pattern="(^[0-9]*$)"
             required
-            title={"telefone deve ter o formato (xx)xxxxx-xxxx"}
+            title={"telefone deve ter somente números"}
           />
         </label>
         <label style={{ margin: 16, display: "flex" }}>
@@ -65,8 +85,8 @@ export const AddUserPage: React.FC = () => {
           <input
             required
             onChange={handleBirth}
-            pattern="^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$"
-            title={"Formato DD/MM/AAAA"}
+            pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
+            title={"Formato AAAA-MM-DD"}
           />
         </label>
         {<p>{errorBirth}</p>}
@@ -80,7 +100,15 @@ export const AddUserPage: React.FC = () => {
             required
           />
         </label>
-        <button type="submit">Adicionar</button>
+        <label>
+          <select onChange={handleRole}>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+        </label>
+        <button type="submit" disabled={loading ? true : false}>
+          {loading ? "Enviando" : "Enviar"}
+        </button>
       </form>
     </>
   );
