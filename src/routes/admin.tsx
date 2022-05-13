@@ -53,14 +53,6 @@ export const AdminPage: React.FC = () => {
           </table>
         </>
       )}
-      <table>
-        <thead>
-          <tr>
-            <th>Usuário</th>
-            <th>E-mail</th>
-          </tr>
-        </thead>
-      </table>
       <button type="button" onClick={handlePrevPage}>
         ⬅
       </button>
