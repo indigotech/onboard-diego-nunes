@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { GET_USERS } from "../data/graphql/queries/get-users-query";
+import { useRef } from "react";
+import { GET_USERS_QUERY } from "../data/graphql/queries/get-users-query";
 interface UsersQueryVariables {
   offset: number;
   limit: number;
@@ -12,13 +13,14 @@ interface User {
   name: string;
   email: string;
 }
-export const LIMIT = 10;
+export const GET_USERS_LIMIT = 10;
+
 export const useUsers = (offset: number) => {
-  const token = localStorage.getItem("token");
+  const token = useRef(localStorage.getItem("token")).current;
   const { data, loading, error } = useQuery<
     UsersQueryResponse,
     UsersQueryVariables
-  >(GET_USERS, {
+  >(GET_USERS_QUERY, {
     context: {
       headers: {
         Authorization: token,
@@ -26,7 +28,7 @@ export const useUsers = (offset: number) => {
     },
     variables: {
       offset: offset,
-      limit: LIMIT,
+      limit: GET_USERS_LIMIT,
     },
   });
   return {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LIMIT, useUsers } from "../domain/get-users";
+import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
 
 export const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,12 +10,12 @@ export const AdminPage: React.FC = () => {
   const numberPage = 1 + offset / 10;
 
   const handleNextPage = () => {
-    setOffset(offset + LIMIT);
+    setOffset(offset + GET_USERS_LIMIT);
   };
 
   const handlePrevPage = () => {
     if (numberPage !== 1) {
-      setOffset(offset - LIMIT);
+      setOffset(offset - GET_USERS_LIMIT);
     }
   };
 

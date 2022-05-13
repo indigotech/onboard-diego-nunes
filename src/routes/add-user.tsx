@@ -1,51 +1,56 @@
 import { ApolloError, useMutation } from "@apollo/client";
-import React, { useState } from "react";
-import { ADDUSER } from "../data/graphql/mutations/create-user-mutation";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { ADD_USER_MUTATION } from "../data/graphql/mutations/create-user-mutation";
 
 export const AddUserPage: React.FC = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthDate, setBirth] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
+  const name = "";
+  const phone = "";
+  const birthDate = "";
+  const email = "";
+  const role = "";
+
+  const formValues = useRef({ name, phone, birthDate, email, role }).current;
+
+  const navigate = useNavigate();
 
   const [errorBirth, setErrorBirth] = useState("");
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    formValues.name = e.target.value;
   };
 
   const handlePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
+    formValues.phone = e.target.value;
   };
 
   const handleBirth = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBirth(e.target.value);
+    formValues.birthDate = e.target.value;
   };
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    formValues.email = e.target.value;
   };
 
   const handleRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRole(e.target.value);
+    formValues.role = e.target.value;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const year = birthDate?.slice(0, 4);
+    const year = formValues.birthDate?.slice(0, 4);
     if (Number(year) > 2022) {
       setErrorBirth("A pessoa não pode ser viajante do tempo");
     } else {
       setErrorBirth("");
       addUser({
-        variables: { data: { name, email, phone, birthDate, role } },
+        variables: { data: formValues },
       });
     }
   };
-  const token = localStorage.getItem("token");
-  const [addUser, { loading }] = useMutation(ADDUSER, {
+  const token = useRef(localStorage.getItem("token")).current;
+
+  const [addUser, { loading }] = useMutation(ADD_USER_MUTATION, {
     context: {
       headers: {
         Authorization: token,
@@ -108,6 +113,13 @@ export const AddUserPage: React.FC = () => {
         </label>
         <button type="submit" disabled={loading ? true : false}>
           {loading ? "Enviando" : "Enviar"}
+        </button>
+        <button
+          onClick={() => {
+            navigate("/admin");
+          }}
+        >
+          ⬅
         </button>
       </form>
     </>
