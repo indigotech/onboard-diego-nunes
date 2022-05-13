@@ -1,21 +1,28 @@
 import React, { useState } from "react";
-import { LIMIT, useUsers } from "../domain/get-users";
+import { useNavigate } from "react-router-dom";
+import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
 
 export const AdminPage: React.FC = () => {
+  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
 
   const { users, loading, error } = useUsers(offset);
   const numberPage = 1 + offset / 10;
 
   const handleNextPage = () => {
-    setOffset(offset + LIMIT);
+    setOffset(offset + GET_USERS_LIMIT);
   };
 
   const handlePrevPage = () => {
     if (numberPage !== 1) {
-      setOffset(offset - LIMIT);
+      setOffset(offset - GET_USERS_LIMIT);
     }
   };
+
+  const handleClick = () => {
+    navigate("/add-user");
+  };
+
   return (
     <>
       <h2>Bem vindo ao painel do Admin</h2>
@@ -44,15 +51,16 @@ export const AdminPage: React.FC = () => {
               );
             })}
           </table>
-          <button type="button" onClick={handlePrevPage}>
-            ⬅
-          </button>
-          <p>{numberPage}</p>
-          <button type="button" onClick={handleNextPage}>
-            ⮕
-          </button>
         </>
       )}
+      <button type="button" onClick={handlePrevPage}>
+        ⬅
+      </button>
+      <p>{numberPage}</p>
+      <button type="button" onClick={handleNextPage}>
+        ⮕
+      </button>
+      <button onClick={handleClick}>Add User</button>
     </>
   );
 };
