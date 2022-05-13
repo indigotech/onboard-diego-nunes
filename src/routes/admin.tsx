@@ -51,13 +51,6 @@ export const AdminPage: React.FC = () => {
               );
             })}
           </table>
-          <button type="button" onClick={handlePrevPage}>
-            ⬅
-          </button>
-          <p>{numberPage}</p>
-          <button type="button" onClick={handleNextPage}>
-            ⮕
-          </button>
         </>
       )}
       <table>
