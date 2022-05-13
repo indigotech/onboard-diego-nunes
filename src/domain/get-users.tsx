@@ -15,21 +15,23 @@ interface User {
 export const LIMIT = 10;
 export const useUsers = (offset: number) => {
   const token = localStorage.getItem("token");
-  const { data } = useQuery<UsersQueryResponse, UsersQueryVariables>(
-    GET_USERS,
-    {
-      context: {
-        headers: {
-          Authorization: token,
-        },
+  const { data, loading, error } = useQuery<
+    UsersQueryResponse,
+    UsersQueryVariables
+  >(GET_USERS, {
+    context: {
+      headers: {
+        Authorization: token,
       },
-      variables: {
-        offset: offset,
-        limit: LIMIT,
-      },
-    }
-  );
+    },
+    variables: {
+      offset: offset,
+      limit: LIMIT,
+    },
+  });
   return {
     users: data?.users.nodes,
+    loading,
+    error,
   };
 };
