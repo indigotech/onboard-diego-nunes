@@ -1,7 +1,6 @@
-import { ApolloError, useMutation } from "@apollo/client";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { ADD_USER_MUTATION } from "../data/graphql/mutations/create-user-mutation";
+import { useAddUsers } from "../domain/add-user";
 
 export const AddUserPage: React.FC = () => {
   const name = "";
@@ -48,21 +47,7 @@ export const AddUserPage: React.FC = () => {
       });
     }
   };
-  const token = useRef(localStorage.getItem("token")).current;
-
-  const [addUser, { loading }] = useMutation(ADD_USER_MUTATION, {
-    context: {
-      headers: {
-        Authorization: token,
-      },
-    },
-    onError: (error: ApolloError) => {
-      alert(error.message);
-    },
-    onCompleted: () => {
-      alert("Cadastrado com sucesso");
-    },
-  });
+  const { addUser, loading } = useAddUsers();
   return (
     <>
       <h2>Criação de usuário</h2>
