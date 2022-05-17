@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAddUsers } from "../domain/add-user";
+import { Spacer } from "../styles/constants";
+import { Container } from "./add-user-styles";
 
 export const AddUserPage: React.FC = () => {
   const name = "";
@@ -49,64 +51,62 @@ export const AddUserPage: React.FC = () => {
   };
   const { addUser, loading } = useAddUsers();
   return (
-    <>
+    <Container>
       <h2>Criação de usuário</h2>
       <form onSubmit={handleSubmit}>
-        <label style={{ margin: 16, display: "flex" }}>
-          Nome:
-          <input
-            onChange={handleName}
-            pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
-            required
-            title={"Mínimo 2 caracteres"}
-          />
-        </label>
-        <label style={{ margin: 16, display: "flex" }}>
-          Telefone:
-          <input
-            onChange={handlePhone}
-            pattern="(^[0-9]*$)"
-            required
-            title={"telefone deve ter somente números"}
-          />
-        </label>
-        <label style={{ margin: 16, display: "flex" }}>
-          Nascimento:
-          <input
-            required
-            onChange={handleBirth}
-            pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
-            title={"Formato AAAA-MM-DD"}
-          />
-        </label>
+        <label>Nome</label>
+        <input
+          onChange={handleName}
+          pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+          required
+          title={"Mínimo 2 caracteres"}
+        />
+        <Spacer />
+        <label>Telefone</label>
+        <input
+          onChange={handlePhone}
+          pattern="(^[0-9]*$)"
+          required
+          title={"telefone deve ter somente números"}
+        />
+        <Spacer />
+        <label>Nascimento</label>
+        <input
+          required
+          onChange={handleBirth}
+          pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
+          title={"Formato AAAA-MM-DD"}
+        />
         {<p>{errorBirth}</p>}
-        <label style={{ margin: 16, display: "flex" }}>
-          E-mail:
-          <input
-            type="text"
-            onChange={handleEmail}
-            pattern="(^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$)"
-            title={"email incorreto! formato esperado: aaaa@aaaa.com.aa"}
-            required
-          />
-        </label>
-        <label>
-          <select onChange={handleRole}>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-          </select>
-        </label>
-        <button type="submit" disabled={loading ? true : false}>
-          {loading ? "Enviando" : "Enviar"}
-        </button>
-        <button
-          onClick={() => {
-            navigate("/admin");
-          }}
-        >
-          ⬅
-        </button>
+        <Spacer />
+        <label>E-mail</label>
+        <input
+          type="text"
+          onChange={handleEmail}
+          pattern="(^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$)"
+          title={"email incorreto! formato esperado: aaaa@aaaa.com.aa"}
+          required
+        />
+        <Spacer />
+        <select onChange={handleRole}>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+        <Spacer />
+        <div>
+          <button type="submit" disabled={loading ? true : false}>
+            {loading ? "Enviando" : "Enviar"}
+          </button>
+          <Spacer />
+          <button
+            onClick={() => {
+              navigate("/admin");
+            }}
+          >
+            ⬅
+          </button>
+        </div>
       </form>
-    </>
+    </Container>
   );
 };

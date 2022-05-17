@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from "react-router";
 import { useUserDetails } from "../domain/get-user-detail";
+import { Spacer } from "../styles/constants";
+import { Container } from "./user-detail-styles";
 
 export const UserDetail: React.FC = () => {
   const location = useLocation();
@@ -7,8 +9,9 @@ export const UserDetail: React.FC = () => {
   const state = Number(location.state);
   const { user, loading, error } = useUserDetails(state);
   return (
-    <>
+    <Container>
       <h2>Detalhes do Usuário </h2>
+      <Spacer />
       {loading ? (
         <h2>Carregando...</h2>
       ) : error ? (
@@ -49,15 +52,19 @@ export const UserDetail: React.FC = () => {
               </tr>
             </tbody>
           </table>
-          <button
-            onClick={() => {
-              navigate("/admin");
-            }}
-          >
-            ⬅
-          </button>
+          <Spacer />
+          <div>
+            <button
+              onClick={() => {
+                navigate("/admin");
+              }}
+            >
+              ⬅
+            </button>
+          </div>
+          <Spacer />
         </>
       )}
-    </>
+    </Container>
   );
 };

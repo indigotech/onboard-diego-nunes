@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ButtonSeparator, Container } from "../routes/admin-styles";
 import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
+import { Spacer } from "../styles/constants";
 
 export const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ export const AdminPage: React.FC = () => {
   };
 
   return (
-    <>
+    <Container>
       <h2>Bem vindo ao painel do Admin</h2>
       <h2>Lista de usuários</h2>
       {loading ? (
@@ -54,7 +56,9 @@ export const AdminPage: React.FC = () => {
                           navigate("/user-detail", { state: user.id });
                         }}
                       >
-                        🕵🏻‍♀️ Info
+                        🕵🏻‍♀️
+                        <ButtonSeparator />
+                        Info
                       </button>
                     </td>
                   </tr>
@@ -64,14 +68,20 @@ export const AdminPage: React.FC = () => {
           </table>
         </>
       )}
-      <button type="button" onClick={handlePrevPage}>
-        ⬅
-      </button>
-      <p>{numberPage}</p>
-      <button type="button" onClick={handleNextPage}>
-        ⮕
-      </button>
-      <button onClick={handleClick}>Add User ✍🏼</button>
-    </>
+      <Spacer />
+      <div>
+        <button type="button" onClick={handlePrevPage}>
+          ⬅
+        </button>
+        <Spacer />
+        <p>{numberPage}</p>
+        <Spacer />
+        <button type="button" onClick={handleNextPage}>
+          ⮕
+        </button>
+        <Spacer />
+        <button onClick={handleClick}>Add User ✍🏼</button>
+      </div>
+    </Container>
   );
 };

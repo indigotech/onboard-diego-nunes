@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "./App.css";
 import Logo from "./logo.png";
 import { isValidEmail, isValidPassword } from "./utils/validate";
 
 import { ApolloError, useMutation } from "@apollo/client";
 import { LOGIN } from "./data/graphql/mutations/login-mutation";
 import { useNavigate } from "react-router-dom";
+
+import { Container } from "./App-styles";
 
 function App() {
   const [email, setEmail] = useState(" ");
@@ -49,27 +50,23 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <Container>
       <header className="App-header">
         <p>Bem-vindo à Taqtile</p>
         <img src={Logo} width="100px" height="100px" />
         <form onSubmit={handleSubmit}>
-          <label>
-            E-mail:
-            <input onChange={handleChangeEmail} required={true} />
-          </label>
+          <label>E-mail</label>
+          <input onChange={handleChangeEmail} required={true} />
           {<p>{errorEmail}</p>}
-          <label>
-            Password:
-            <input onChange={handleChangePassword} required={true} />
-          </label>
+          <label>Password</label>
+          <input onChange={handleChangePassword} required={true} />
           {<p>{errorPassword}</p>}
           <button type="submit" disabled={loading ? true : false}>
             {loading ? "carregando..." : "Entrar"}
           </button>
         </form>
       </header>
-    </div>
+    </Container>
   );
 }
 
