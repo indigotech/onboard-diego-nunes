@@ -1,7 +1,12 @@
 import { useLocation, useNavigate } from "react-router";
 import { useUserDetails } from "../domain/get-user-detail";
-import { Spacer } from "../styles/constants";
-import { Container } from "./user-detail-styles";
+import { Button, H2 } from "../styles/basic-components-styles";
+import { Spacer } from "../styles/separator";
+import {
+  PositionButtonStyled,
+  UserDetailContainerStyled,
+  UserDetailTableStyled,
+} from "./user-detail-styles";
 
 export const UserDetail: React.FC = () => {
   const location = useLocation();
@@ -9,16 +14,16 @@ export const UserDetail: React.FC = () => {
   const state = Number(location.state);
   const { user, loading, error } = useUserDetails(state);
   return (
-    <Container>
-      <h2>Detalhes do Usuário </h2>
+    <UserDetailContainerStyled>
+      <H2>Detalhes do Usuário </H2>
       <Spacer />
       {loading ? (
-        <h2>Carregando...</h2>
+        <H2>Carregando...</H2>
       ) : error ? (
-        <h2>Desculpe ocorreu um erro, tente novamente</h2>
+        <H2>Desculpe ocorreu um erro, tente novamente</H2>
       ) : (
         <>
-          <table>
+          <UserDetailTableStyled>
             <thead>
               <tr>
                 <th>Label</th>
@@ -51,20 +56,20 @@ export const UserDetail: React.FC = () => {
                 <td>{user?.birthDate}</td>
               </tr>
             </tbody>
-          </table>
+          </UserDetailTableStyled>
           <Spacer />
-          <div>
-            <button
+          <PositionButtonStyled>
+            <Button
               onClick={() => {
                 navigate("/admin");
               }}
             >
               ⬅
-            </button>
-          </div>
+            </Button>
+          </PositionButtonStyled>
           <Spacer />
         </>
       )}
-    </Container>
+    </UserDetailContainerStyled>
   );
 };

@@ -6,7 +6,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { LOGIN } from "./data/graphql/mutations/login-mutation";
 import { useNavigate } from "react-router-dom";
 
-import { Container } from "./App-styles";
+import { Container, Error } from "./App-styles";
 
 function App() {
   const [email, setEmail] = useState(" ");
@@ -57,10 +57,10 @@ function App() {
         <form onSubmit={handleSubmit}>
           <label>E-mail</label>
           <input onChange={handleChangeEmail} required={true} />
-          {<p>{errorEmail}</p>}
+          {<Error>{errorEmail}</Error>}
           <label>Password</label>
           <input onChange={handleChangePassword} required={true} />
-          {<p>{errorPassword}</p>}
+          {<Error>{errorPassword}</Error>}
           <button type="submit" disabled={loading ? true : false}>
             {loading ? "carregando..." : "Entrar"}
           </button>

@@ -9,9 +9,6 @@ export const Container = styled.div`
   min-height: 100vh;
   display: flex;
   font-size: ${FontSize.small};
-  p {
-    font-size: ${FontSize.medium};
-  }
   img {
     padding: ${Padding.small};
   }
@@ -27,6 +24,9 @@ export const Container = styled.div`
     font-size: ${FontSize.xSmall};
     border-radius: 10px;
     border: transparent;
-    color: #ffffff;
+    color: ${Color.white};
   }
+`;
+export const Error = styled.p`
+  font-size: ${FontSize.medium};
 `;

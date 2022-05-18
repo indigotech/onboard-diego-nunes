@@ -1,22 +1,18 @@
 import styled from "styled-components";
 import { Color, FontSize, Padding } from "../styles/constants";
 
-export const Container = styled.div`
+export const AdminContainerStyled = styled.div`
   background: ${Color.colorBackground};
   padding: 24px;
-  h2 {
-    display: flex;
-    justify-content: center;
-    padding: 32px 10px 10px 10px;
-  }
-  h2 {
-    color: ${Color.white};
-  }
-  table {
-    display: flex-root;
-    flex-direction: column;
-    color: ${Color.white};
-  }
+`;
+export const GroupButton = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+export const AdminTableStyled = styled.table`
+  display: flex-root;
+  flex-direction: column;
+  color: ${Color.white};
   th {
     background: black;
     padding: ${Padding.small};
@@ -26,18 +22,10 @@ export const Container = styled.div`
     border: 1px solid ${Color.white};
     padding: 10px;
   }
-  div {
-    display: flex;
-    justify-content: center;
-  }
-  p {
-    font-size: ${FontSize.small};
-    color: ${Color.white};
-  }
-  button {
-    border-radius: 10px;
-    border: transparent;
-  }
+`;
+export const PageNumberStyled = styled.p`
+  font-size: ${FontSize.small};
+  color: ${Color.white};
 `;
 export const ButtonSeparator = styled.div`
   width: 20px;

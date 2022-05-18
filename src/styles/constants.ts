@@ -1,4 +1,3 @@
-import styled from "styled-components";
 export enum Color {
   colorBackground = "#282c34",
   white = "#ffffff",
@@ -15,7 +14,3 @@ export enum FontSize {
   small = "20px",
   medium = "30px",
 }
-export const Spacer = styled.div`
-  width: 10px;
-  height: 10px;
-`;

@@ -1,8 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAddUsers } from "../domain/add-user";
-import { Spacer } from "../styles/constants";
-import { Container } from "./add-user-styles";
+import { Button } from "../styles/basic-components-styles";
+import { Spacer } from "../styles/separator";
+import {
+  AddUserContainerStyled,
+  AddUserGroupButton,
+  InputFormStyled,
+} from "./add-user-styles";
 
 export const AddUserPage: React.FC = () => {
   const name = "";
@@ -51,62 +56,68 @@ export const AddUserPage: React.FC = () => {
   };
   const { addUser, loading } = useAddUsers();
   return (
-    <Container>
+    <AddUserContainerStyled>
       <h2>Criação de usuário</h2>
       <form onSubmit={handleSubmit}>
-        <label>Nome</label>
-        <input
-          onChange={handleName}
-          pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
-          required
-          title={"Mínimo 2 caracteres"}
-        />
+        <InputFormStyled>
+          <label>Nome</label>
+          <input
+            onChange={handleName}
+            pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+            required
+            title={"Mínimo 2 caracteres"}
+          />
+        </InputFormStyled>
+        <InputFormStyled>
+          <label>Telefone</label>
+          <input
+            onChange={handlePhone}
+            pattern="(^[0-9]*$)"
+            required
+            title={"telefone deve ter somente números"}
+          />
+        </InputFormStyled>
+        <InputFormStyled>
+          <label>Nascimento</label>
+          <input
+            required
+            onChange={handleBirth}
+            pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
+            title={"Formato AAAA-MM-DD"}
+          />
+          {<></> ?? <p>{errorBirth}</p>}
+        </InputFormStyled>
+        <InputFormStyled>
+          <label>E-mail</label>
+          <input
+            type="text"
+            onChange={handleEmail}
+            pattern="(^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$)"
+            title={"email incorreto! formato esperado: aaaa@aaaa.com.aa"}
+            required
+          />
+        </InputFormStyled>
+        <InputFormStyled>
+          <select onChange={handleRole}>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+        </InputFormStyled>
         <Spacer />
-        <label>Telefone</label>
-        <input
-          onChange={handlePhone}
-          pattern="(^[0-9]*$)"
-          required
-          title={"telefone deve ter somente números"}
-        />
-        <Spacer />
-        <label>Nascimento</label>
-        <input
-          required
-          onChange={handleBirth}
-          pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
-          title={"Formato AAAA-MM-DD"}
-        />
-        {<p>{errorBirth}</p>}
-        <Spacer />
-        <label>E-mail</label>
-        <input
-          type="text"
-          onChange={handleEmail}
-          pattern="(^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$)"
-          title={"email incorreto! formato esperado: aaaa@aaaa.com.aa"}
-          required
-        />
-        <Spacer />
-        <select onChange={handleRole}>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select>
-        <Spacer />
-        <div>
-          <button type="submit" disabled={loading ? true : false}>
-            {loading ? "Enviando" : "Enviar"}
-          </button>
+        <AddUserGroupButton>
+          <Button type="submit" disabled={loading ? true : false}>
+            {loading ? "Enviando..." : "Enviar"}
+          </Button>
           <Spacer />
-          <button
+          <Button
             onClick={() => {
               navigate("/admin");
             }}
           >
             ⬅
-          </button>
-        </div>
+          </Button>
+        </AddUserGroupButton>
       </form>
-    </Container>
+    </AddUserContainerStyled>
   );
 };

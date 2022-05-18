@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ButtonSeparator, Container } from "../routes/admin-styles";
+import {
+  ButtonSeparator,
+  AdminContainerStyled,
+  GroupButton,
+  PageNumberStyled,
+  AdminTableStyled,
+} from "../routes/admin-styles";
 import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
-import { Spacer } from "../styles/constants";
+import { Spacer } from "../styles/separator";
+import { Button, H2 } from "../styles/basic-components-styles";
 
 export const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,16 +33,16 @@ export const AdminPage: React.FC = () => {
   };
 
   return (
-    <Container>
-      <h2>Bem vindo ao painel do Admin</h2>
-      <h2>Lista de usuários</h2>
+    <AdminContainerStyled>
+      <H2>Bem vindo ao painel do Admin</H2>
+      <H2>Lista de usuários</H2>
       {loading ? (
-        <h2>Carregando...</h2>
+        <H2>Carregando...</H2>
       ) : error ? (
-        <h2>Algo errado ocorreu, tente novamente</h2>
+        <H2>Algo errado ocorreu, tente novamente</H2>
       ) : (
         <>
-          <table>
+          <AdminTableStyled>
             <thead>
               <tr>
                 <th>índice</th>
@@ -65,23 +72,23 @@ export const AdminPage: React.FC = () => {
                 </tbody>
               );
             })}
-          </table>
+          </AdminTableStyled>
         </>
       )}
       <Spacer />
-      <div>
-        <button type="button" onClick={handlePrevPage}>
+      <GroupButton>
+        <Button type="button" onClick={handlePrevPage}>
           ⬅
-        </button>
+        </Button>
         <Spacer />
-        <p>{numberPage}</p>
+        <PageNumberStyled>{numberPage}</PageNumberStyled>
         <Spacer />
-        <button type="button" onClick={handleNextPage}>
+        <Button type="button" onClick={handleNextPage}>
           ⮕
-        </button>
+        </Button>
         <Spacer />
-        <button onClick={handleClick}>Add User ✍🏼</button>
-      </div>
-    </Container>
+        <Button onClick={handleClick}>Add User ✍🏼</Button>
+      </GroupButton>
+    </AdminContainerStyled>
   );
 };
