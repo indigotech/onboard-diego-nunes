@@ -1,8 +1,15 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { FormInput } from "../components/form-component";
 import { useAddUsers } from "../domain/add-user";
 import { Button } from "../styles/basic-components-styles";
 import { Spacer } from "../styles/separator";
+import {
+  isValidBirth,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from "../utils/validate";
 import {
   AddUserContainerStyled,
   AddUserGroupButton,
@@ -21,6 +28,9 @@ export const AddUserPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [errorBirth, setErrorBirth] = useState("");
+  const [errorName, setErrorName] = useState("");
+  const [errorPhone, setErrorPhone] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     formValues.name = e.target.value;
@@ -44,9 +54,29 @@ export const AddUserPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isValidName(formValues.name)) {
+      setErrorName("");
+    } else {
+      setErrorName("Nome Inválido");
+    }
+
+    if (isValidPhone(formValues.phone)) {
+      setErrorPhone("");
+    } else {
+      setErrorPhone("Telefone Inválido: somente números");
+    }
+
+    if (isValidEmail(formValues.email)) {
+      setErrorEmail("");
+    } else {
+      setErrorEmail("Email incorreto! formato esperado: aaaa@aaaa.com.aa  ");
+    }
     const year = formValues.birthDate?.slice(0, 4);
-    if (Number(year) > 2022) {
-      setErrorBirth("A pessoa não pode ser viajante do tempo");
+    if (Number(year) > 2022 || !isValidBirth(formValues.birthDate)) {
+      setErrorBirth(
+        "Não pode ser viajante do tempo ou o formato desejado é AAAA-MM-DD"
+      );
     } else {
       setErrorBirth("");
       addUser({
@@ -59,46 +89,17 @@ export const AddUserPage: React.FC = () => {
     <AddUserContainerStyled>
       <h2>Criação de usuário</h2>
       <form onSubmit={handleSubmit}>
-        <InputFormStyled>
-          <label>Nome</label>
-          <input
-            onChange={handleName}
-            pattern="(/^([a-zA-Z]{2,}\s[a-zA-Z]{0,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
-            required
-            title={"Mínimo 2 caracteres"}
-          />
-        </InputFormStyled>
-        <InputFormStyled>
-          <label>Telefone</label>
-          <input
-            onChange={handlePhone}
-            pattern="(^[0-9]*$)"
-            required
-            title={"telefone deve ter somente números"}
-          />
-        </InputFormStyled>
-        <InputFormStyled>
-          <label>Nascimento</label>
-          <input
-            required
-            onChange={handleBirth}
-            pattern="(^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$)"
-            title={"Formato AAAA-MM-DD"}
-          />
-          {<></> ?? <p>{errorBirth}</p>}
-        </InputFormStyled>
-        <InputFormStyled>
-          <label>E-mail</label>
-          <input
-            type="text"
-            onChange={handleEmail}
-            pattern="(^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$)"
-            title={"email incorreto! formato esperado: aaaa@aaaa.com.aa"}
-            required
-          />
-        </InputFormStyled>
+        <FormInput name={"Nome"} handle={handleName} required />
+        {<p>{errorName}</p>}
+        <FormInput name={"Telefone"} handle={handlePhone} required />
+        {<p>{errorPhone}</p>}
+        <FormInput name={"Nascimento"} handle={handleBirth} required />
+        {<p>{errorBirth}</p>}
+        <FormInput name={"E-mail"} handle={handleEmail} required />
+        {<p>{errorEmail}</p>}
         <InputFormStyled>
           <select onChange={handleRole}>
+            <option value="">Selecione</option>
             <option value="admin">Admin</option>
             <option value="user">User</option>
           </select>
