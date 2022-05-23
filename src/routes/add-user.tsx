@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { FormInput } from "../components/form-component";
 import { useAddUsers } from "../domain/add-user";
-import { Button } from "../styles/basic-components-styles";
+import { ButtonStyled } from "../styles/basic-components-styles";
 import { Spacer } from "../styles/separator";
 import {
   isValidBirth,
@@ -89,14 +89,30 @@ export const AddUserPage: React.FC = () => {
     <AddUserContainerStyled>
       <h2>Criação de usuário</h2>
       <form onSubmit={handleSubmit}>
-        <FormInput name={"Nome"} handle={handleName} required />
-        {<p>{errorName}</p>}
-        <FormInput name={"Telefone"} handle={handlePhone} required />
-        {<p>{errorPhone}</p>}
-        <FormInput name={"Nascimento"} handle={handleBirth} required />
-        {<p>{errorBirth}</p>}
-        <FormInput name={"E-mail"} handle={handleEmail} required />
-        {<p>{errorEmail}</p>}
+        <FormInput
+          name={"Nome"}
+          handle={handleName}
+          required
+          error={errorName}
+        />
+        <FormInput
+          name={"Telefone"}
+          handle={handlePhone}
+          required
+          error={errorPhone}
+        />
+        <FormInput
+          name={"Nascimento"}
+          handle={handleBirth}
+          required
+          error={errorBirth}
+        />
+        <FormInput
+          name={"E-mail"}
+          handle={handleEmail}
+          required
+          error={errorEmail}
+        />
         <InputFormStyled>
           <select onChange={handleRole}>
             <option value="">Selecione</option>
@@ -106,17 +122,17 @@ export const AddUserPage: React.FC = () => {
         </InputFormStyled>
         <Spacer />
         <AddUserGroupButton>
-          <Button type="submit" disabled={loading ? true : false}>
+          <ButtonStyled type="submit" disabled={loading ? true : false}>
             {loading ? "Enviando..." : "Enviar"}
-          </Button>
+          </ButtonStyled>
           <Spacer />
-          <Button
+          <ButtonStyled
             onClick={() => {
               navigate("/admin");
             }}
           >
             ⬅
-          </Button>
+          </ButtonStyled>
         </AddUserGroupButton>
       </form>
     </AddUserContainerStyled>

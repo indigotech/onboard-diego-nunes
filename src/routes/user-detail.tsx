@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 import { useUserDetails } from "../domain/get-user-detail";
-import { Button, H2 } from "../styles/basic-components-styles";
+import { ButtonStyled, H2 } from "../styles/basic-components-styles";
 import { Spacer } from "../styles/separator";
 import {
   PositionButtonStyled,
@@ -59,13 +59,13 @@ export const UserDetail: React.FC = () => {
           </UserDetailTableStyled>
           <Spacer />
           <PositionButtonStyled>
-            <Button
+            <ButtonStyled
               onClick={() => {
                 navigate("/admin");
               }}
             >
               ⬅
-            </Button>
+            </ButtonStyled>
           </PositionButtonStyled>
           <Spacer />
         </>

@@ -9,7 +9,7 @@ import {
 } from "../routes/admin-styles";
 import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
 import { Spacer } from "../styles/separator";
-import { Button, H2 } from "../styles/basic-components-styles";
+import { ButtonStyled, H2 } from "../styles/basic-components-styles";
 
 export const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -77,17 +77,17 @@ export const AdminPage: React.FC = () => {
       )}
       <Spacer />
       <GroupButton>
-        <Button type="button" onClick={handlePrevPage}>
+        <ButtonStyled type="button" onClick={handlePrevPage}>
           ⬅
-        </Button>
+        </ButtonStyled>
         <Spacer />
         <PageNumberStyled>{numberPage}</PageNumberStyled>
         <Spacer />
-        <Button type="button" onClick={handleNextPage}>
+        <ButtonStyled type="button" onClick={handleNextPage}>
           ⮕
-        </Button>
+        </ButtonStyled>
         <Spacer />
-        <Button onClick={handleClick}>Add User ✍🏼</Button>
+        <ButtonStyled onClick={handleClick}>Add User ✍🏼</ButtonStyled>
       </GroupButton>
     </AdminContainerStyled>
   );

@@ -4,13 +4,17 @@ import { Color, Padding } from "./constants";
 export const H2 = styled.h2`
   display: flex;
   justify-content: center;
-  padding: 32px 10px 10px 10px;
+  padding: ${Padding.medium} ${Padding.small} ${Padding.small} ${Padding.small};
   color: ${Color.white};
 `;
-export const Button = styled.button`
+export const ButtonStyled = styled.button`
   padding: ${Padding.small};
   width: 70px;
   height: auto;
   border-radius: ${Padding.small};
   border: none;
+  &:hover {
+    background-color: ${Color.hover};
+    cursor: pointer;
+  }
 `;

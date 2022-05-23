@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color, Padding } from "../styles/constants";
+import { Color, FontSize, Padding } from "../styles/constants";
 
 export const AddUserContainerStyled = styled.div`
   background: ${Color.colorBackground};
@@ -19,5 +19,13 @@ export const InputFormStyled = styled.div`
 export const AddUserGroupButton = styled.div`
   justify-content: center;
   display: flex;
+  padding: ${Padding.small};
+`;
+export const ErrorFormStyled = styled.p`
+  font-size: ${FontSize.xSmall};
+  color: ${Color.error};
+  width: 100px;
+  height: auto;
+  margin: auto;
   padding: ${Padding.small};
 `;
