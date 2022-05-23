@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import "./App.css";
 import Logo from "./logo.png";
 import { isValidEmail, isValidPassword } from "./utils/validate";
 
 import { ApolloError, useMutation } from "@apollo/client";
 import { LOGIN } from "./data/graphql/mutations/login-mutation";
 import { useNavigate } from "react-router-dom";
+
+import { ButtonLoginStyled, Wrapper } from "./App-styles";
+import { FormInput } from "./components/form-component";
 
 function App() {
   const [email, setEmail] = useState(" ");
@@ -49,27 +51,29 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <Wrapper>
+      <header>
         <p>Bem-vindo à Taqtile</p>
         <img src={Logo} width="100px" height="100px" />
         <form onSubmit={handleSubmit}>
-          <label>
-            E-mail:
-            <input onChange={handleChangeEmail} required={true} />
-          </label>
-          {<p>{errorEmail}</p>}
-          <label>
-            Password:
-            <input onChange={handleChangePassword} required={true} />
-          </label>
-          {<p>{errorPassword}</p>}
-          <button type="submit" disabled={loading ? true : false}>
+          <FormInput
+            name={"Email"}
+            handle={handleChangeEmail}
+            required
+            error={errorEmail}
+          />
+          <FormInput
+            name={"Password"}
+            handle={handleChangePassword}
+            required
+            error={errorPassword}
+          />
+          <ButtonLoginStyled type="submit" disabled={loading ? true : false}>
             {loading ? "carregando..." : "Entrar"}
-          </button>
+          </ButtonLoginStyled>
         </form>
       </header>
-    </div>
+    </Wrapper>
   );
 }
 

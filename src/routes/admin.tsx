@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  ButtonSeparator,
+  AdminContainerStyled,
+  GroupButton,
+  PageNumberStyled,
+  AdminTableStyled,
+} from "../routes/admin-styles";
 import { GET_USERS_LIMIT, useUsers } from "../domain/get-users";
+import { Spacer } from "../styles/separator";
+import { ButtonStyled, H2 } from "../styles/basic-components-styles";
 
 export const AdminPage: React.FC = () => {
   const navigate = useNavigate();
@@ -24,16 +33,16 @@ export const AdminPage: React.FC = () => {
   };
 
   return (
-    <>
-      <h2>Bem vindo ao painel do Admin</h2>
-      <h2>Lista de usuários</h2>
+    <AdminContainerStyled>
+      <H2>Bem vindo ao painel do Admin</H2>
+      <H2>Lista de usuários</H2>
       {loading ? (
-        <h2>Carregando...</h2>
+        <H2>Carregando...</H2>
       ) : error ? (
-        <h2>Algo errado ocorreu, tente novamente</h2>
+        <H2>Algo errado ocorreu, tente novamente</H2>
       ) : (
         <>
-          <table>
+          <AdminTableStyled>
             <thead>
               <tr>
                 <th>índice</th>
@@ -54,24 +63,32 @@ export const AdminPage: React.FC = () => {
                           navigate("/user-detail", { state: user.id });
                         }}
                       >
-                        🕵🏻‍♀️ Info
+                        🕵🏻‍♀️
+                        <ButtonSeparator />
+                        Info
                       </button>
                     </td>
                   </tr>
                 </tbody>
               );
             })}
-          </table>
+          </AdminTableStyled>
         </>
       )}
-      <button type="button" onClick={handlePrevPage}>
-        ⬅
-      </button>
-      <p>{numberPage}</p>
-      <button type="button" onClick={handleNextPage}>
-        ⮕
-      </button>
-      <button onClick={handleClick}>Add User ✍🏼</button>
-    </>
+      <Spacer />
+      <GroupButton>
+        <ButtonStyled type="button" onClick={handlePrevPage}>
+          ⬅
+        </ButtonStyled>
+        <Spacer />
+        <PageNumberStyled>{numberPage}</PageNumberStyled>
+        <Spacer />
+        <ButtonStyled type="button" onClick={handleNextPage}>
+          ⮕
+        </ButtonStyled>
+        <Spacer />
+        <ButtonStyled onClick={handleClick}>Add User ✍🏼</ButtonStyled>
+      </GroupButton>
+    </AdminContainerStyled>
   );
 };
